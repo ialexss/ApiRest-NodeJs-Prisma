@@ -1,15 +1,21 @@
 import express from "express"
 
-import productsRoutes from "./routes/products.js"
-import cateogoriesRoutes from "./routes/categories.js"
+import productsRoutes from "./routes/products.routes.js"
+import categoriesRoutes from "./routes/categories.routes.js"
 
 
 const app = express()
+const PORT = process.env.PORT || 3000 ; 
+
 
 app.use(express.json())
 
-app.use("/api", productsRoutes);
-app.use("/api", cateogoriesRoutes);
 
-app.listen(3000)
-console.log("server on port", 3000)
+app.use("/api", productsRoutes);
+app.use("/api", categoriesRoutes);
+
+
+
+app.listen(PORT, ()=>{
+    console.log(`Server listening on port ${PORT}`);
+})
