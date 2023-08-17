@@ -1,19 +1,30 @@
 import productsService from "../services/products.service.js"
 
 const getAllProducts = async (req, res) => {
-    const products = await productsService.getAllProducts()
+    try {
 
-    res.status(200).json(products)
+        const products = await productsService.getAllProducts();
+        res.status(200).json(products);
+        
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while fetching the products." });
+    }
 }
 
 const getOneProduct =  async (req, res) => {
 
-    const productFound = await productsService.getOneProduct(req.params.id)
+    try {
 
-    if(!productFound)
-        return res.status(404).json({error: "Product not found"})
+        const productFound = await productsService.getOneProduct(req.params.id);
 
-    return  res.status(200).json(productFound)
+        if (!productFound)
+          return res.status(404).json({ error: "Product not found" });
+
+        return res.status(200).json(productFound);
+
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while fetching the product." });
+    }
 
 }
 
@@ -39,9 +50,14 @@ const createNewProduct =  async (req, res)=>{
         stock: body.stock
     }
 
-    const createdProduct = await productsService.createNewProduct(newProduct)
+    try {
 
-    res.status(201).json(createdProduct)
+        const createdProduct = await productsService.createNewProduct(newProduct);
+        res.status(201).json(createdProduct);
+
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while creating the product." });
+    }
 }
 
 const deleteProduct =  async (req, res) => {
@@ -51,12 +67,17 @@ const deleteProduct =  async (req, res) => {
     if(!id)
         return
 
-    const productDeleted = await productsService.deleteProduct(id)
+    try {
+        const productDeleted = await productsService.deleteProduct(id);
 
-    if(!productDeleted)
-        return res.status(404).json({error: "Product not found"})
+        if (!productDeleted)
+            return res.status(404).json({ error: "Product not found" });
 
-    return res.status(204).json(productDeleted)
+        return res.status(204).json(productDeleted);
+
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while deleting the product." });
+    }
 }
 
 const updateProduct =  async (req,res) =>{
@@ -66,12 +87,17 @@ const updateProduct =  async (req,res) =>{
     if(!id)
         return
 
-    const productUpdate = await productsService.updateProduct(id,body)
+    try {
+        const productUpdate = await productsService.updateProduct(id, body);
 
-    if(!productUpdate)
-        return res.status(404).json({error: "Product not found"})
+        if (!productUpdate)
+            return res.status(404).json({ error: "Product not found" });
 
-    return res.status(200).json(productUpdate)
+        return res.status(200).json(productUpdate);
+
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while updating the product." });
+    }
 }
 
 export default{
